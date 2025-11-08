@@ -1,7 +1,7 @@
 #!/bin/bash
 # Speicherplatz-Report mit Warnung ab 90% Nutzung
 
-EMAIL="me@jensneuhaus.de"  # Deine E-Mail-Adresse
+EMAIL="kontakt@jensneuhaus.de"  # Deine E-Mail-Adresse
 HOSTNAME=$(hostname)
 
 # Ermittelt den Gesamtspeicherverbrauch für "/"
@@ -51,3 +51,7 @@ EOF
 
 # E-Mail senden
 echo -e "$MESSAGE" | mail -s "$SUBJECT" "$EMAIL"
+
+# Healthcheck
+curl -m 10 --retry 5 https://hc-ping.com/44fb309b-6197-48c4-aeb8-2f9b1259288a
+
