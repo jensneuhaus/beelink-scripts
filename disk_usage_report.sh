@@ -26,8 +26,11 @@ else
   SUBJECT="[BEELINK] Wöchentlicher Report: ${USAGE}%"
 fi
 
+
 DISK_INFO=$(df -h)
 DIR_DETAILS=$(du -sxh /home/jens/backups /home/jens/docker /var/log /var/lib/docker /tmp /usr 2>/dev/null | sort -rh)
+BACKUP_DIR_DETAILS=$(cd /home/jens/backups && du -h --max-depth=1 .)
+
 RAM_INFO=$(free -h | awk '/Mem:/ {print}')
 UPTIME_INFO=$(uptime)
 LAST_LOGIN=$(last -n 5 | head -5)
@@ -105,6 +108,9 @@ $DISK_INFO
 
 📁 Wichtige Verzeichnisse:
 $DIR_DETAILS
+
+📁 Backup-Verzeichnis (/home/backups):
+$BACKUP_DIR_DETAILS
 
 🖥️ RAM-Nutzung:
 $RAM_INFO
