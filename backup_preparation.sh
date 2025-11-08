@@ -1,22 +1,17 @@
 #!/bin/bash
 
-echo "---> Backup preparation"
+echo "========== Backup preparation started =========="
 
-echo "-----> Paperless"
+echo "--------> Paperless..."
 
 docker exec paperless document_exporter /usr/src/paperless/backup
 
-echo "-----> Gitea"
+echo "--------> Gitea..."
 
 docker exec -u git -it -w /backups gitea  bash -c '/usr/local/bin/gitea dump -c /etc/gitea/app.ini'
 
-echo "-----> Delete old Mongo backups"
+echo "--------> Pinging healthcheck..."
 
-find /home/jens/backups/ -type f -name "*.archive" -mtime +30 -delete
+curl -m 10 --retry 5 https://hc-ping.com/7a592111-712b-4c68-841d-52b799fa237a
 
-echo "-----> Mongo"
-
-docker exec mongo /backups/mongo_backup.sh
-
-echo "---> Backup preparation DONE"
-
+echo "========== Backup preparation ✅ =========="
